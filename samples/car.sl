@@ -1,3 +1,5 @@
+// Basic program to show the use of structs
+
 struct Car {
     fn Car(s, m) {
         self.speed = s

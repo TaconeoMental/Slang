@@ -24,11 +24,14 @@ func NewSlangCompiler(name string, filebytes []byte, debug bool) *SlangCompiler 
 
 func (sc *SlangCompiler) Compile() (int, error) {
         sc.DebugPrint("Compile() called")
-        t := tokenizer.New(sc.mainFileBytes)
-        p := parser.New(t)
+        t := tokenizer.New(string(sc.mainFileBytes))
+        sc.DebugPrint("Tokens produced:")
 
-        ast, _ := p.Parse()
+        p := parser.New(t)
+        ast := p.ParseProgram()
         sc.DebugPrint("AST: %v", ast)
+        emptys := ""
+        ast.PrintTree(&emptys, true)
         // TODO
         return 0, nil
 }
