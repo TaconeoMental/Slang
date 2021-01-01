@@ -68,7 +68,7 @@ func isValidIdChar(first bool, char rune) bool {
 var keywords = map[string]TokenType {
         "fn": TOK_KEY_FN,
         "struct": TOK_KEY_STRUCT,
-        "self": TOK_KEY_SELF,
+        //"self": TOK_KEY_SELF,
         "if": TOK_KEY_IF,
         "else": TOK_KEY_ELSE,
         "for": TOK_KEY_FOR,

@@ -25,7 +25,6 @@ func NewSlangCompiler(name string, filebytes []byte, debug bool) *SlangCompiler 
 func (sc *SlangCompiler) Compile() (int, error) {
         sc.DebugPrint("Compile() called")
         t := tokenizer.New(string(sc.mainFileBytes))
-        sc.DebugPrint("Tokens produced:")
 
         p := parser.New(t)
         ast := p.ParseProgram()
