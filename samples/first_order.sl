@@ -1,6 +1,6 @@
 fn iter(string, func) {
     i = 0
-    while i < len(string) {
+    for i < len(string) {
         func(string[i])
     }
 }

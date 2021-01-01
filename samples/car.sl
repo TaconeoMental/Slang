@@ -1,3 +1,5 @@
+// Basic program to show the use of structs
+
 struct Car {
     fn Car(s, m) {
         self.speed = s
@@ -5,10 +7,6 @@ struct Car {
     }
     
     fn accelerate(valor) {
-        if valor + self.speed > self.max {
-            return "Too fast!"
-        }
-        self.speed += valor
         return self.speed
     }
 
@@ -17,10 +15,9 @@ struct Car {
     }
 }
 
-new_car = Car{10, 30}
 
-print new_car.accelerate(10)
-print new_car.accelerate(10)
+print(new_car.accelerate(10))
+print(new_car.accelerate(10))
 
 new_car.stop()
-print new_car.speed
+print(new_car.speed)
