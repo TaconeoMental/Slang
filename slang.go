@@ -1,12 +1,12 @@
 package main
 
 import (
-    "fmt"
-    "io/ioutil"
-    "os"
-    "flag"
+        "fmt"
+        "io/ioutil"
+        "os"
+        "flag"
 
-    "github.com/TaconeoMental/Slang/compiler"
+        "github.com/TaconeoMental/Slang/compiler"
 )
 
 func main() {
@@ -16,30 +16,38 @@ func main() {
         // Definimos nuestro propio usage del CLI para mostrar la posición de
         // [filenmae]
         flag.Usage = func() {
-            fmt.Fprintf(os.Stderr, "Usage: %s [Options] [Filename]\n", os.Args[0])
-            fmt.Fprintln(os.Stderr, "Options:")
+                fmt.Fprintf(os.Stderr, "Usage: %s [Options] [Filename]\n", os.Args[0])
+                fmt.Fprintln(os.Stderr, "Options:")
 
-            flag.VisitAll(func(f *flag.Flag) {
-                fmt.Fprintf(os.Stderr, "    -%v,\t%v\n", f.Name, f.Usage) // f.Name, f.Value
-            })
+                flag.VisitAll(func(f *flag.Flag) {
+                        fmt.Fprintf(os.Stderr, "    -%v,\t%v\n", f.Name, f.Usage) // f.Name, f.Value
+                })
         }
 
         flag.Parse()
 
         if len(flag.Args()) == 0 {
-                fmt.Fprintln(os.Stderr, "Slang: No file specified")
-        }
+                flag.Usage()
 
-        if *compileFile {
-                fileBytes, err := ioutil.ReadFile(flag.Arg(0))
-                if err != nil {
-                        fmt.Fprintf(os.Stderr, "Slang: Error opening file: %T:%v\n", err, err)
-                }
+        } else {
 
-                slangCompiler := compiler.NewSlangCompiler(flag.Arg(0), fileBytes, *debug)
-                _, err = slangCompiler.Compile()
-                if err != nil {
-                        fmt.Fprintf(os.Stderr, "Slang: Error compiling file: %T:%v\n", err, err)
+                if *compileFile {
+                        fileBytes, err := ioutil.ReadFile(flag.Arg(0))
+                        if err != nil {
+                                fmt.Fprintf(os.Stderr, "Slang: Error opening file: %T:%v\n", err, err)
+                                return
+                        }
+
+                        slangCompiler, err := compiler.NewSlangCompiler(flag.Arg(0), fileBytes, *debug)
+                        if err != nil {
+                                fmt.Fprintf(os.Stderr, "Slang: %v\n", err.Error())
+                                return
+                        }
+
+                        _, err = slangCompiler.Compile()
+                        if err != nil {
+                                fmt.Fprintf(os.Stderr, "Slang: Error compiling file. %v\n", err.Error())
+                        }
                 }
         }
 }

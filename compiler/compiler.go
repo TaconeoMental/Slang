@@ -6,6 +6,8 @@ import (
 
         "github.com/TaconeoMental/Slang/compiler/tokenizer"
         "github.com/TaconeoMental/Slang/compiler/parser"
+        "github.com/TaconeoMental/Slang/compiler/codegen"
+        "github.com/TaconeoMental/Slang/compiler/common"
 )
 
 type SlangCompiler struct {
@@ -14,12 +16,18 @@ type SlangCompiler struct {
         debug          bool
 }
 
-func NewSlangCompiler(name string, filebytes []byte, debug bool) *SlangCompiler {
+func NewSlangCompiler(name string, filebytes []byte, debug bool) (*SlangCompiler, error) {
         cmp := new(SlangCompiler)
+
+        err := common.CheckMainFilePath(name)
+        if err != nil {
+                return nil, err
+        }
         cmp.mainFilePath = name
+
         cmp.mainFileBytes = filebytes
         cmp.debug = debug
-        return cmp
+        return cmp, nil
 }
 
 func (sc *SlangCompiler) Compile() (int, error) {
@@ -29,9 +37,18 @@ func (sc *SlangCompiler) Compile() (int, error) {
         p := parser.New(t)
         ast := p.ParseProgram()
         sc.DebugPrint("AST: %v", ast)
-        emptys := ""
-        ast.PrintTree(&emptys, true)
-        // TODO
+
+        if sc.debug {
+                emptys := ""
+                ast.PrintTree(&emptys, true)
+        }
+
+        cg, err := codegen.New(ast, sc.mainFilePath)
+        if err != nil {
+                return -1, err
+        }
+
+        cg.Generate()
         return 0, nil
 }
 

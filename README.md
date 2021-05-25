@@ -2,6 +2,8 @@
   <img height="150x" src="https://raw.githubusercontent.com/TaconeoMental/Slang/main/assets/slang_logo.png" />
 </p>
 
+![Status Badge](https://img.shields.io/badge/status-Work%20in%20progress-yellow)
+
 Slang is a simple and compact programming language designed to be used with the [Hiru Virtual machine](https://github.com/TaconeoMental/Hiru-VM). It has a familiar syntax and all the neccessary features to write basic programs.
 It uses the Hiru assembly language as an IR which then compiles directly to bytecode.
 
@@ -19,7 +21,7 @@ go build
 ## Compiling
 This command will produce the bytecode file```car.hbc```.
 ```bash
-./slang -c car.sl
+./slang -compile car.sl
 ```
 
 ## Running
